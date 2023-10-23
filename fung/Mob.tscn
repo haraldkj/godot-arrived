@@ -1,0 +1,61 @@
+[gd_scene load_steps=6 format=3 uid="uid://r06gh1qjrxrd"]
+
+[ext_resource type="Script" path="res://Mob.gd" id="1_rty48"]
+[ext_resource type="Texture2D" uid="uid://bbws6rpt1cs6h" path="res://art/caster.png" id="2_y3kaj"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ypl3e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_y3kaj")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_y3kaj")
+}],
+"loop": true,
+"name": &"swim",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_y3kaj")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 3.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ppx1e"]
+polygon = PackedVector2Array(16, -14.6667, -14.6667, -14.6667, -14.6667, 14.6667, 16, 14.6667)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e5c3h"]
+size = Vector2(24.0001, 23.9999)
+
+[node name="Mob" type="RigidBody2D" groups=["mobs"]]
+collision_layer = 3
+collision_mask = 3
+gravity_scale = 2.66454e-15
+contact_monitor = true
+script = ExtResource("1_rty48")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_ypl3e")
+animation = &"walk"
+metadata/_edit_group_ = true
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="AnimatedSprite2D"]
+occluder = SubResource("OccluderPolygon2D_ppx1e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_e5c3h")
+metadata/_edit_group_ = true
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+metadata/_edit_group_ = true

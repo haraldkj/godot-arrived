@@ -1,0 +1,92 @@
+[gd_scene load_steps=10 format=3 uid="uid://bb1dnskpt3l10"]
+
+[ext_resource type="Script" path="res://Main.gd" id="1_korah"]
+[ext_resource type="PackedScene" uid="uid://r06gh1qjrxrd" path="res://Mob.tscn" id="2_8vymg"]
+[ext_resource type="PackedScene" uid="uid://buh2k01x0sa55" path="res://Player.tscn" id="2_72y67"]
+[ext_resource type="Texture2D" uid="uid://dnoqgx8i6pgo5" path="res://art/background_black.png" id="3_uruag"]
+[ext_resource type="Texture2D" uid="uid://chmco3bher2bp" path="res://art/light.png" id="6_caxnd"]
+[ext_resource type="Script" path="res://player_left.gd" id="6_ovk3m"]
+[ext_resource type="PackedScene" uid="uid://duiveiogkc77d" path="res://BottomWall.tscn" id="7_ds2bt"]
+[ext_resource type="PackedScene" uid="uid://cnjvyfluhioj2" path="res://TopWall.tscn" id="7_nqhe1"]
+
+[sub_resource type="Curve2D" id="Curve2D_ql7cx"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1159, 9, 0, 0, 0, 0, 1158, 363, 0, 0, 0, 0, 1157, 718, 0, 0, 0, 0, 580.878, 726.94, 0, 0, 0, 0, 2, 723, 0, 0, 0, 0, 1, 1)
+}
+point_count = 7
+
+[node name="Node" type="Node"]
+script = ExtResource("1_korah")
+mob_scene = ExtResource("2_8vymg")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(577, 321.5)
+scale = Vector2(9, 5.14844)
+texture = ExtResource("3_uruag")
+
+[node name="Light" type="PointLight2D" parent="."]
+visible = false
+position = Vector2(271, 359)
+color = Color(1, 0.337255, 1, 1)
+shadow_enabled = true
+shadow_filter = 2
+texture = ExtResource("6_caxnd")
+texture_scale = 0.55
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
+position = Vector2(98, 224)
+color = Color(1, 1, 0.427451, 1)
+shadow_enabled = true
+shadow_filter = 2
+texture = ExtResource("6_caxnd")
+
+[node name="PointLight2D2" type="PointLight2D" parent="."]
+visible = false
+position = Vector2(465, 631)
+color = Color(0.427451, 1, 1, 1)
+shadow_enabled = true
+shadow_filter = 2
+texture = ExtResource("6_caxnd")
+
+[node name="Player" parent="." instance=ExtResource("2_72y67")]
+script = ExtResource("6_ovk3m")
+
+[node name="Player_right" parent="." instance=ExtResource("2_72y67")]
+
+[node name="StartPositionLeft" type="Marker2D" parent="."]
+position = Vector2(2.08165e-12, 450)
+
+[node name="StartPositionRight" type="Marker2D" parent="."]
+position = Vector2(1152, 450)
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="MobPath" type="Path2D" parent="."]
+position = Vector2(0, 0.104609)
+scale = Vector2(1, 0.895391)
+curve = SubResource("Curve2D_ql7cx")
+
+[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
+position = Vector2(1, 1)
+rotation = 0.00690835
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.552941, 0.572549, 0.572549, 1)
+
+[node name="Area2D" parent="." instance=ExtResource("7_nqhe1")]
+position = Vector2(-4, -9)
+
+[node name="Area2D2" parent="." instance=ExtResource("7_ds2bt")]
+
+[connection signal="hit" from="Player" to="." method="game_over"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]

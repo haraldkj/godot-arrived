@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://cnjvyfluhioj2"]
+
+[ext_resource type="Texture2D" uid="uid://bbws6rpt1cs6h" path="res://art/caster.png" id="2_eenx6"]
+
+[sub_resource type="GDScript" id="GDScript_yt33h"]
+script/source = "extends Area2D
+
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pbmm7"]
+size = Vector2(1155.5, 13)
+
+[node name="Area2D" type="Area2D"]
+script = SubResource("GDScript_yt33h")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+top_level = true
+position = Vector2(571, 1)
+scale = Vector2(36.3281, 0.296875)
+texture = ExtResource("2_eenx6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(574, 9)
+shape = SubResource("RectangleShape2D_pbmm7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(249.75, 9.5)
+shape = SubResource("RectangleShape2D_pbmm7")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
